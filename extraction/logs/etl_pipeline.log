@@ -1,0 +1,114 @@
+2023-11-15 09:46:03,378 [INFO] __main__: /home/nerd/elt_pipelines/data/yellow_tripdata_2022-01.parquet : extracted 2463931 records from the parquet file
+2023-11-15 09:46:03,383 [INFO] __main__: /home/nerd/elt_pipelines/data/h9gi-nx95.csv : extracted 500 records from the csv file
+2023-11-15 09:46:03,384 [DEBUG] urllib3.connectionpool: Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2023-11-15 09:46:05,717 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-15 09:46:05,717 [INFO] __main__: 200 - ok : while invoking the https://data.cityofnewyork.us/resource/h9gi-nx95.json?$limit=500
+2023-11-15 09:46:06,547 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-15 09:46:06,561 [INFO] __main__: 200- extracted 500 records from the api endpoint
+2023-11-15 09:46:07,941 [INFO] __main__: https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)- read 214 records from the page : https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)
+2023-11-16 05:39:06,845 [ERROR] __main__: data/yellow_tripdata_2022-01.parquet : - exception [Errno 2] No such file or directory: 'data/yellow_tripdata_2022-01.parquet' encountered while extracting the parquet file
+Traceback (most recent call last):
+  File "/home/nerd/elt_pipelines/extraction/data_extraction.py", line 41, in parquet_data_source
+    df_parquet = pd.read_parquet(parquet_file_name)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parquet.py", line 670, in read_parquet
+    return impl.read(
+           ^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parquet.py", line 265, in read
+    path_or_handle, handles, filesystem = _get_path_or_handle(
+                                          ^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parquet.py", line 139, in _get_path_or_handle
+    handles = get_handle(
+              ^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/common.py", line 872, in get_handle
+    handle = open(handle, ioargs.mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/yellow_tripdata_2022-01.parquet'
+2023-11-16 05:39:06,850 [ERROR] __main__: data/h9gi-nx95.csv : -exception [Errno 2] No such file or directory: 'data/h9gi-nx95.csv' encountered while extracting the csv file
+Traceback (most recent call last):
+  File "/home/nerd/elt_pipelines/extraction/data_extraction.py", line 53, in csv_data_source
+    df_csv = pd.read_csv(csv_file_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 948, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 611, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1448, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1705, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/common.py", line 863, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/h9gi-nx95.csv'
+2023-11-16 05:39:06,855 [DEBUG] urllib3.connectionpool: Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2023-11-16 05:39:33,244 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-16 05:39:33,245 [INFO] __main__: 200 - ok : while invoking the https://data.cityofnewyork.us/resource/h9gi-nx95.json?$limit=500
+2023-11-16 05:39:33,643 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-16 05:39:33,663 [INFO] __main__: 200- extracted 500 records from the api endpoint
+2023-11-16 05:39:34,993 [INFO] __main__: https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)- read 214 records from the page : https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)
+2023-11-16 05:40:16,884 [ERROR] __main__: ./data/yellow_tripdata_2022-01.parquet : - exception [Errno 2] No such file or directory: './data/yellow_tripdata_2022-01.parquet' encountered while extracting the parquet file
+Traceback (most recent call last):
+  File "/home/nerd/elt_pipelines/extraction/data_extraction.py", line 41, in parquet_data_source
+    df_parquet = pd.read_parquet(parquet_file_name)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parquet.py", line 670, in read_parquet
+    return impl.read(
+           ^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parquet.py", line 265, in read
+    path_or_handle, handles, filesystem = _get_path_or_handle(
+                                          ^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parquet.py", line 139, in _get_path_or_handle
+    handles = get_handle(
+              ^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/common.py", line 872, in get_handle
+    handle = open(handle, ioargs.mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: './data/yellow_tripdata_2022-01.parquet'
+2023-11-16 05:40:16,888 [ERROR] __main__: ./data/h9gi-nx95.csv : -exception [Errno 2] No such file or directory: './data/h9gi-nx95.csv' encountered while extracting the csv file
+Traceback (most recent call last):
+  File "/home/nerd/elt_pipelines/extraction/data_extraction.py", line 53, in csv_data_source
+    df_csv = pd.read_csv(csv_file_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 948, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 611, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1448, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1705, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/home/nerd/.local/share/virtualenvs/elt_pipelines-hCNCDhlg/lib/python3.11/site-packages/pandas/io/common.py", line 863, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: './data/h9gi-nx95.csv'
+2023-11-16 05:40:16,892 [DEBUG] urllib3.connectionpool: Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2023-11-16 05:40:18,760 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-16 05:40:18,760 [INFO] __main__: 200 - ok : while invoking the https://data.cityofnewyork.us/resource/h9gi-nx95.json?$limit=500
+2023-11-16 05:40:19,241 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-16 05:40:19,252 [INFO] __main__: 200- extracted 500 records from the api endpoint
+2023-11-16 05:40:20,423 [INFO] __main__: https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)- read 214 records from the page : https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)
+2023-11-16 05:41:03,766 [INFO] __main__: /home/nerd/elt_pipelines/data/yellow_tripdata_2022-01.parquet : extracted 2463931 records from the parquet file
+2023-11-16 05:41:03,772 [INFO] __main__: /home/nerd/elt_pipelines/data/h9gi-nx95.csv : extracted 500 records from the csv file
+2023-11-16 05:41:03,773 [DEBUG] urllib3.connectionpool: Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2023-11-16 05:41:05,609 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-16 05:41:05,610 [INFO] __main__: 200 - ok : while invoking the https://data.cityofnewyork.us/resource/h9gi-nx95.json?$limit=500
+2023-11-16 05:41:06,036 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-16 05:41:06,047 [INFO] __main__: 200- extracted 500 records from the api endpoint
+2023-11-16 05:41:07,237 [INFO] __main__: https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)- read 214 records from the page : https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)
+2023-11-16 05:41:33,517 [INFO] __main__: /home/nerd/elt_pipelines/data/yellow_tripdata_2022-01.parquet : extracted 2463931 records from the parquet file
+2023-11-16 05:41:33,523 [INFO] __main__: /home/nerd/elt_pipelines/data/h9gi-nx95.csv : extracted 500 records from the csv file
+2023-11-16 05:41:33,527 [DEBUG] urllib3.connectionpool: Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2023-11-16 05:41:35,442 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-16 05:41:35,443 [INFO] __main__: 200 - ok : while invoking the https://data.cityofnewyork.us/resource/h9gi-nx95.json?$limit=500
+2023-11-16 05:41:35,877 [DEBUG] urllib3.connectionpool: https://data.cityofnewyork.us:443 "GET /resource/h9gi-nx95.json?$limit=500 HTTP/1.1" 200 None
+2023-11-16 05:41:35,896 [INFO] __main__: 200- extracted 500 records from the api endpoint
+2023-11-16 05:41:37,162 [INFO] __main__: https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)- read 214 records from the page : https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)

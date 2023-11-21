@@ -4,41 +4,50 @@ pipeline:
   version: 1.0
 
 # DISCLAIMER: modify the following code to match your local DuckBD instance
-duckdb:
+postgresql:
+  host: localhost
+  port: 5432
+  username: root
+  password: root
   database_name: chicago.db
 
 # Chicago Data file paths
-crash_filepath: ./data/traffic_crashes.csv
-vehicle_filepath: ./data/traffic_crash_vehicle.csv
-people_filepath: ./data/traffic_crash_people.csv
+crash_filepath: ./data/crash_data.csv
+vehicle_filepath: ./data/vehicle_crash_data.csv
+people_filepath: ./data/people_crash_data.csv
 
 # Chicago Data output tables in DuckDB
-crash_table_DuckDB: chicago_dmv.crash
-vehicle_table_DuckDB: chicago_dmv.vehicle
-person_table_DuckDB:  chicago_dmv.person
+crash_table_PSQL: chicago_dmv.crash
+vehicle_table_PSQL: chicago_dmv.vehicle
+person_table_PSQL:  chicago_dmv.person
 
 # Chicago Data output schemas in DuckDB
-crash_insert_DuckDB: """(CRASH_UNIT_ID,
-                      CRASH_ID,
-                      PERSON_ID,
-                      VEHICLE_ID,
-                      NUM_UNITS,
-                      TOTAL_INJURIES)
-                      VALUES (%s, %s, %s, %s, %s, %s)"""
-vehicle_insert_DuckDB: """(CRASH_UNIT_ID,
-                        CRASH_ID,
-                        CRASH_DATE,
-                        VEHICLE_ID,
-                        VEHICLE_MAKE,
-                        VEHICLE_MODEL,
-                        VEHICLE_YEAR,
-                        VEHICLE_TYPE)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
-person_insert_DuckDB: """(PERSON_ID,
-                        CRASH_ID,
-                        CRASH_DATE,
-                        PERSON_TYPE,
-                        VEHICLE_ID,
-                        PERSON_SEX,
-                        PERSON_AGE)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+crash_insert_PSQL: |
+  (CRASH_UNIT_ID,
+   CRASH_ID,
+   PERSON_ID,
+   VEHICLE_ID,
+   NUM_UNITS,
+   TOTAL_INJURIES)
+  VALUES (%s, %s, %s, %s, %s, %s)
+
+vehicle_insert_PSQL: |
+  (CRASH_UNIT_ID,
+   CRASH_ID,
+   CRASH_DATE,
+   VEHICLE_ID,
+   VEHICLE_MAKE,
+   VEHICLE_MODEL,
+   VEHICLE_YEAR,
+   VEHICLE_TYPE)
+  VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+
+person_insert_PSQL: |
+  (PERSON_ID,
+   CRASH_ID,
+   CRASH_DATE,
+   PERSON_TYPE,
+   VEHICLE_ID,
+   PERSON_SEX,
+   PERSON_AGE)
+  VALUES (%s, %s, %s, %s, %s, %s, %s)

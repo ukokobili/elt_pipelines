@@ -1,71 +1,52 @@
 # import relevant modules
-import duckdb as db
+import psycopg2
+from dotenv import load_dotenv
+import os
 
-# establish connection to the DuckDB database
-conn = db.connect('database_name')
+# Load environment variables from .env file
+load_dotenv()
+
+# establish connection to the PostgreSQL database
+conn = psycopg2.connect(
+    database=os.getenv('POSTGRES_DB'),
+    user=os.getenv('POSTGRES_USER'),
+    password=os.getenv('POSTGRES_PASSWORD'),
+    host=os.getenv('POSTGRES_HOST'),
+    port=os.getenv('POSTGRES_PORT')
+)
 
 # create a cursor object for running SQL queries
 cur = conn.cursor()
 print('successful creation of cursor object.')
 
-
-# suggested continued learning: this function can be modified to be fully dynamic
-def load_data(df: object, duckdb_table: object, duckdb_schema: object) -> object:
+def load_data(df: object, postgre_table: object, postgre_schema: object) -> object:
     """
-    Load transformed data into respective DuckDB Table
-    :param cur: duckdb cursor object
+    Load transformed data into respective PostgreSQL Table
+    :param cur: PostgreSQL cursor object
     :return: cursor object
     """
-    insert_query = f"INSERT INTO {duckdb_table} {duckdb_schema};"
+    # Get column names and placeholders
+    columns = ', '.join(df.columns)
+    placeholders = ', '.join(['%s' for _ in range(len(df.columns))])
 
-    # insert transformed data into the DuckDB table
-    # TODO: REFACTOR TO MAKE SENSE - VERY SLOW / POOR USE OF CPUs
-    for index, row in df.iterrows():
+    # Create the INSERT INTO query with placeholders
+    insert_query = f"INSERT INTO {postgre_schema}.{postgre_table} ({columns}) VALUES ({placeholders});"
 
-        if duckdb_table == 'chicago_dmv.crash':
-            insert_values = (row['CRASH_UNIT_ID'],
-                              row['CRASH_ID'],
-                              row['PERSON_ID'],
-                              row['VEHICLE_ID'],
-                              row['NUM_UNITS'],
-                              row['TOTAL_INJURIES'])
+    # Convert pandas DataFrame to a list of tuples (suitable for parameterization)
+    data_list = [tuple(row) for row in df.itertuples(index=False, name=None)]
 
-        elif duckdb_table == 'chicago_dmv.vehicle':
-            insert_values = (row['CRASH_UNIT_ID'],
-                              row['CRASH_ID'],
-                              row['CRASH_DATE'],
-                              row['VEHICLE_ID'],
-                              row['VEHICLE_MAKE'],
-                              row['VEHICLE_MODEL'],
-                              row['VEHICLE_YEAR'],
-                              row['VEHICLE_TYPE'])
+    print(f"Columns: {df.columns}")
+    print(f"Placeholders: {placeholders}")
+    print(f"Insert Query: {insert_query}")
+    print(f"Data List: {data_list}")
 
-        elif duckdb_table == 'chicago_dmv.person':
-            insert_values = (row['PERSON_ID'],
-                              row['CRASH_ID'],
-                              row['CRASH_DATE'],
-                              row['PERSON_TYPE'],
-                              row['VEHICLE_ID'],
-                              row['PERSON_SEX'],
-                              row['PERSON_AGE'])
+    try:
+        # Execute the parameterized INSERT INTO query using the data list
+        cur.executemany(insert_query, data_list)
 
-        else:
-            raise ValueError(f'DuckDB Data Table {duckdb_table} does not exist in this pipeline.')
+        # Commit all changes to the database
+        conn.commit()
+    except Exception as e:
+        print(f"Error: {e}")
 
-        # Insert data int
-        cur.execute(insert_query, insert_values)
-
-    # Commit all changes to the database
-    conn.commit()
-
-def close_conn(cur):
-    """
-    Closing DuckDB connection
-    :param cur: duckdb cursor object
-    :return: none
-    """
-
-    # Close the cursor and database connection
-    cur.close()
-    conn.close()
-    print('successful closing of cursor object.')
+# ... (remaining code)

@@ -23,14 +23,14 @@ def run_pipeline():
 
     # Step 3: Load data
     load.load_data(df=crashes_transformed_df,
-                   duckdb_table=config_data['crash_table_DuckBD'],
-                   duckdb_schema=config_data['crash_insert_DuckBD'])
+                   postgre_table=config_data['crash_table_PSQL'],
+                   postgre_schema=config_data['crash_insert_PSQL'])
     load.load_data(df=vehicle_transformed_df,
-                   duckdb_table=config_data['vehicle_table_DuckBD'],
-                   duckdb_schema=config_data['vehicle_insert_DuckBD'])
+                   postgre_table=config_data['vehicle_table_PSQL'],
+                   postgre_schema=config_data['vehicle_insert_PSQL'])
     load.load_data(df=people_transformed_df,
-                   duckdb_table=config_data['people_table_DuckBD'],
-                   duckdb_schema=config_data['people_insert_DuckBD'])
+                   postgre_table=config_data['person_table_PSQL'],
+                   postgre_schema=config_data['person_insert_PSQL'])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  chicago:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=chicago.db
+    volumes:
+      - storage_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  storage_db:

@@ -20,12 +20,12 @@ def transform_data(df: object) -> object:
 
     # convert columns to appropriate data types
     try:
-        df['CRASH_DATE'] = pd.to_datetime(df['CRASH_DATE'], format='%m/%d/%Y')
+        df['crash_date'] = pd.to_datetime(df['crash_date'], format='%m/%d/%Y')
     except:
         pass
 
     try:
-        df['POSTED_SPEED_LIMIT'] = df['POSTED_SPEED_LIMIT'].astype('int32')
+        df['posted_speed_limit'] = df['posted_speed_limit'].astype('int32')
     except:
         pass
 

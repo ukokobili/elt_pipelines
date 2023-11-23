@@ -25,28 +25,56 @@ def load_data(df: object, postgre_table: object, postgre_schema: object) -> obje
     :param cur: PostgreSQL cursor object
     :return: cursor object
     """
-    # Get column names and placeholders
-    columns = ', '.join(df.columns)
-    placeholders = ', '.join(['%s' for _ in range(len(df.columns))])
+    insert_query = f"INSERT INTO {postgre_table} {postgre_schema};"
 
-    # Create the INSERT INTO query with placeholders
-    insert_query = f"INSERT INTO {postgre_schema}.{postgre_table} ({columns}) VALUES ({placeholders});"
+    # insert transformed data into PostgreSQL table
+    # TODO: REFACTOR TO MAKE SENSE - VERY SLOW / POOR USE OF CPUs
+    for index, row in df.iterrows():
 
-    # Convert pandas DataFrame to a list of tuples (suitable for parameterization)
-    data_list = [tuple(row) for row in df.itertuples(index=False, name=None)]
+        if postgre_table == 'chicago_dmv.crash':
+            insert_values = (row['crash_record_id'],
+                              row['crash_date'],
+                              row['posted_speed_limit'],
+                              row['crash_type'],
+                              row['num_units'],
+                              row['injuries_total'])
 
-    print(f"Columns: {df.columns}")
-    print(f"Placeholders: {placeholders}")
-    print(f"Insert Query: {insert_query}")
-    print(f"Data List: {data_list}")
+        elif postgre_table == 'chicago_dmv.vehicle':
+            insert_values = (row['crash_unit_id'],
+                              row['crash_record_id'],
+                              row['crash_date'],
+                              row['vehicle_id'],
+                              row['make'],
+                              row['model'],
+                              row['vehicle_year'],
+                              row['vehicle_type'])
 
-    try:
-        # Execute the parameterized INSERT INTO query using the data list
-        cur.executemany(insert_query, data_list)
+        elif postgre_table == 'chicago_dmv.person':
+            insert_values = (row['person_id'],
+                              row['crash_record_id'],
+                              row['crash_date'],
+                              row['person_type'],
+                              row['vehicle_id'],
+                              row['sex'],
+                              row['age'])
 
-        # Commit all changes to the database
-        conn.commit()
-    except Exception as e:
-        print(f"Error: {e}")
+        else:
+            raise ValueError(f'Postgre Data Table {postgre_table} does not exist in this pipeline.')
 
-# ... (remaining code)
+        # Insert data int
+        cur.execute(insert_query, insert_values)
+
+    # Commit all changes to the database
+    conn.commit()
+
+def close_conn(cur):
+    """
+    Closing Postgre connection
+    :param cur: posgre cursor object
+    :return: none
+    """
+
+    # Close the cursor and database connection
+    cur.close()
+    conn.close()
+    print('successful closing of cursor object.')

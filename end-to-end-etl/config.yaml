@@ -21,33 +21,28 @@ crash_table_PSQL: chicago_dmv.crash
 vehicle_table_PSQL: chicago_dmv.vehicle
 person_table_PSQL:  chicago_dmv.person
 
-# Chicago Data output schemas in DuckDB
-crash_insert_PSQL: |
-  (CRASH_UNIT_ID,
-   CRASH_ID,
-   PERSON_ID,
-   VEHICLE_ID,
-   NUM_UNITS,
-   TOTAL_INJURIES)
-  VALUES (%s, %s, %s, %s, %s, %s)
-
-vehicle_insert_PSQL: |
-  (CRASH_UNIT_ID,
-   CRASH_ID,
-   CRASH_DATE,
-   VEHICLE_ID,
-   VEHICLE_MAKE,
-   VEHICLE_MODEL,
-   VEHICLE_YEAR,
-   VEHICLE_TYPE)
-  VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-
-person_insert_PSQL: |
-  (PERSON_ID,
-   CRASH_ID,
-   CRASH_DATE,
-   PERSON_TYPE,
-   VEHICLE_ID,
-   PERSON_SEX,
-   PERSON_AGE)
-  VALUES (%s, %s, %s, %s, %s, %s, %s)
+# Chicago Data output schemas in PSQL
+crash_insert_PSQL: '(crash_record_id,
+                              crash_date,
+                              posted_speed_limit,
+                              crash_type,
+                              num_units,
+                              injuries_total)
+                      VALUES (%s, %s, %s, %s, %s, %s)'
+vehicle_insert_PSQL: '(crash_unit_id,
+                              crash_record_id,
+                              crash_date,
+                              vehicle_id,
+                              make,
+                              model,
+                              vehicle_year,
+                              vehicle_type)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+person_insert_PSQL: '(person_id,
+                              crash_record_id,
+                              crash_date,
+                              person_type,
+                              vehicle_id,
+                              sex,
+                              age)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)'

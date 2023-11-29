@@ -34,7 +34,22 @@ def transform_data(df: object) -> object:
     # all_data_df = pd.merge(merge_01_df, df3, on='CRASH_RECORD_ID')
     
     # # drop unnecessary columns
-    # df = df[['CRASH_UNIT_ID', 'CRASH_ID', 'CRASH_DATE', 'VEHICLE_ID', 'VEHICLE_MAKE', 'VEHICLE_MODEL',
-    #          'VEHICLE_YEAR', 'VEHICLE_TYPE', 'PERSON_ID', 'PERSON_TYPE', 'PERSON_SEX', 'PERSON_AGE',
-    #          'CRASH_HOUR', 'CRASH_DAY_OF_WEEK', 'CRASH_MONTH', 'DATE_POLICE_NOTIFIED']]
+    # df = df[['person_id', 'crash_record_id', 'crash_date', 'person_type', 'vehicle_id', 
+    #         'sex', 'age', 'crash_unit_id', 'make', 'model', 'vehicle_year', 
+    #         'vehicle_type', 'posted_speed_limit', 'crash_type', 'num_units', 'injuries_total']]
+    # Define expected columns
+    expected_columns = ['person_id', 'crash_record_id', 'crash_date', 'person_type', 'vehicle_id', 
+                        'sex', 'age', 'crash_unit_id', 'make', 'model', 'vehicle_year', 
+                        'vehicle_type', 'posted_speed_limit', 'crash_type', 'num_units', 'injuries_total']
+
+    # Check if any expected columns are missing
+    missing_columns = [col for col in expected_columns if col not in df.columns]
+    if missing_columns:
+        print(f"Warning: The following columns are missing in the DataFrame: {missing_columns}")
+        # Optional: Handle missing columns, e.g., by returning None or a modified DataFrame
+
+    # Select only columns that exist in the DataFrame
+    existing_columns = [col for col in expected_columns if col in df.columns]
+    df = df[existing_columns]
+    
     return df

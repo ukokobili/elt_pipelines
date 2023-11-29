@@ -22,15 +22,20 @@ def run_pipeline():
     people_transformed_df = transform_data(people_df)
 
     # Step 3: Load data
+    schema = config_data['schema_PSQL']
+
     load.load_data(df=crashes_transformed_df,
+                   postgre_schema=schema,
                    postgre_table=config_data['crash_table_PSQL'],
-                   postgre_schema=config_data['crash_insert_PSQL'])
+                   insert_query=config_data['crash_insert_PSQL'])
     load.load_data(df=vehicle_transformed_df,
+                   postgre_schema=schema,
                    postgre_table=config_data['vehicle_table_PSQL'],
-                   postgre_schema=config_data['vehicle_insert_PSQL'])
+                   insert_query=config_data['vehicle_insert_PSQL'])
     load.load_data(df=people_transformed_df,
+                   postgre_schema=schema,
                    postgre_table=config_data['person_table_PSQL'],
-                   postgre_schema=config_data['person_insert_PSQL'])
+                   insert_query=config_data['person_insert_PSQL'])
 
 
 if __name__ == "__main__":

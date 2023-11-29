@@ -4,22 +4,26 @@ pipeline:
   version: 1.0
 
 # DISCLAIMER: modify the following code to match your local DuckBD instance
-postgresql:
-  host: localhost
-  port: 5432
-  username: root
-  password: root
-  database_name: chicago.db
+# postgresql:
+#   host: localhost
+#   port: 5432
+#   username: root
+#   password: root
+#   database_name: chicago.db
+#   options: -csearch_path=chicago_dmv,public
 
 # Chicago Data file paths
 crash_filepath: ./data/crash_data.csv
 vehicle_filepath: ./data/vehicle_crash_data.csv
 people_filepath: ./data/people_crash_data.csv
 
-# Chicago Data output tables in DuckDB
-crash_table_PSQL: chicago_dmv.crash
-vehicle_table_PSQL: chicago_dmv.vehicle
-person_table_PSQL:  chicago_dmv.person
+# PostgreSQL schema for tables
+schema_PSQL: 'chicago_dmv'
+
+# Chicago Data output tables in Postgres
+crash_table_PSQL: crash
+vehicle_table_PSQL: vehicle
+person_table_PSQL:  person
 
 # Chicago Data output schemas in PSQL
 crash_insert_PSQL: '(crash_record_id,

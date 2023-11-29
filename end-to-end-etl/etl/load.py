@@ -19,62 +19,38 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 print('successful creation of cursor object.')
 
-def load_data(df: object, postgre_table: object, postgre_schema: object) -> object:
+def load_data(df: object, postgre_schema: object, postgre_table: object, insert_query: object) -> object:
     """
     Load transformed data into respective PostgreSQL Table
-    :param cur: PostgreSQL cursor object
-    :return: cursor object
+    :param df: DataFrame containing the data to load
+    :param postgre_schema: PostgreSQL schema name
+    :param postgre_table: PostgreSQL table name
+    :param insert_query: Insert query template from config
+    :return: None
     """
-    insert_query = f"INSERT INTO {postgre_table} {postgre_schema};"
+    full_table_name = f"{postgre_schema}.{postgre_table}"
+    insert_query_full = f"INSERT INTO {full_table_name} {insert_query}"  # Construct the full query
 
-    # insert transformed data into PostgreSQL table
-    # TODO: REFACTOR TO MAKE SENSE - VERY SLOW / POOR USE OF CPUs
     for index, row in df.iterrows():
+        # Construct a tuple of values to insert
+        insert_values = tuple(row[col] for col in row.index)
 
-        if postgre_table == 'chicago_dmv.crash':
-            insert_values = (row['crash_record_id'],
-                              row['crash_date'],
-                              row['posted_speed_limit'],
-                              row['crash_type'],
-                              row['num_units'],
-                              row['injuries_total'])
+        # Debugging: Uncomment the next two lines to check the query and values
+        print("Executing SQL:", insert_query_full)
+        print("With values:", insert_values)
 
-        elif postgre_table == 'chicago_dmv.vehicle':
-            insert_values = (row['crash_unit_id'],
-                              row['crash_record_id'],
-                              row['crash_date'],
-                              row['vehicle_id'],
-                              row['make'],
-                              row['model'],
-                              row['vehicle_year'],
-                              row['vehicle_type'])
+        cur.execute(insert_query_full, insert_values)
 
-        elif postgre_table == 'chicago_dmv.person':
-            insert_values = (row['person_id'],
-                              row['crash_record_id'],
-                              row['crash_date'],
-                              row['person_type'],
-                              row['vehicle_id'],
-                              row['sex'],
-                              row['age'])
-
-        else:
-            raise ValueError(f'Postgre Data Table {postgre_table} does not exist in this pipeline.')
-
-        # Insert data int
-        cur.execute(insert_query, insert_values)
-
-    # Commit all changes to the database
     conn.commit()
 
-def close_conn(cur):
+def close_conn():
     """
-    Closing Postgre connection
-    :param cur: posgre cursor object
-    :return: none
+    Closing PostgreSQL connection
     """
-
-    # Close the cursor and database connection
     cur.close()
     conn.close()
     print('successful closing of cursor object.')
+
+# Example usage
+# load_data(df=your_dataframe, postgre_schema='your_schema', postgre_table='your_table', insert_query='your_insert_query')
+# close_conn()
